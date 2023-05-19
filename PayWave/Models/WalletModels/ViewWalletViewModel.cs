@@ -1,10 +1,12 @@
 ﻿using PayWave.Data;
+using PayWave.Models.DTO;
 
 namespace PayWave.Models.WalletModels
 {
     public class ViewWalletViewModel
     {
         public Wallet Wallet { get; set; }
+        public WalletBalanceDTO[]? Balances { get; set; }
         //public IEnumerable<Payment> LastFivePayments { get; set; }
 
         public ViewWalletViewModel(ApplicationDbContext db, long id)

@@ -1,0 +1,122 @@
+﻿@model PayWave.Models.WalletModels.ViewWalletViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = Model.Wallet.Name;
+}
+
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            Check your wallet details and balances
+        </p>
+        <ul class="actions">
+            <li><a href="@Url.Action("Index","Wallet", null)" class="btn btn-info loadingButton">Back</a></li>
+        </ul>
+    </section>
+}
+
+<div class="wrapper">
+    <div class="container" id="main">
+        <div class="row">
+            <div class="col-md-5">
+                <h3>Account data</h3>
+                Name: @Model.Wallet.Name <br />
+                Alias: @Model.Wallet.Alias <br />
+                Account Id: @Model.Wallet.Account <br />
+                QR: <div id="qrcode_address"></div> <br />
+            </div>
+            <div class="col-md-7">
+                <h3>Balances</h3>
+
+                @if(Model.Balances != null && Model.Balances.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Currency</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+
+                        @foreach (var transaction in Model.Balances)
+                        {
+                            <tr>
+                                <td>
+                                    @transaction.currency
+                                </td>
+                                <td>
+                                    @transaction.amount
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                }
+                else
+                {
+                    <p class="alert alert-info alert-dismissible">You do not have balance in this wallet.</p>
+                }
+
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Last payments</h3>
+
+                @*<table class="table">
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Destinatario"]</th>
+                            <th>@Localizer["Fecha"]</th>
+                            <th>@Localizer["Monto"]</th>
+                            <th>@Localizer["Comentario"]</th>
+                        </tr>
+                    </thead>
+
+                    @foreach (var transaction in Model.LastFivePayments)
+                    {
+                        <tr>
+                            <td>
+                                @transaction.DestinationAddress
+                            </td>
+                            <td>
+                                @transaction.CreatedAt.ToLocalTime()
+                            </td>
+                            <td>
+                                @transaction.Amount
+                            </td>
+                            <td>
+                                @transaction.Comments
+                            </td>
+                        </tr>
+                    }
+
+                </table>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts
+{
+    <script type="text/javascript" src="/js/jquery.qrcode.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#qrcode_address').qrcode('@Model.Wallet.Alias');
+        })
+
+    </script>
+}
+

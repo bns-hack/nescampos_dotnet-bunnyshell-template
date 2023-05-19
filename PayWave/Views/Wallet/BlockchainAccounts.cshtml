@@ -1,0 +1,104 @@
+﻿@model PayWave.Models.WalletModels.BlockchainAccountsViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = "Blockchain accounts for "+Model.Wallet.Name;
+}
+
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            Manage the Blockchain addresses of your wallet
+        </p>
+        <ul class="actions">
+            <li><a href="@Url.Action("Index","Wallet", null)" class="btn btn-info loadingButton">Back</a></li>
+        </ul>
+    </section>
+}
+
+<div class="wrapper">
+    <div class="container" id="main">
+        <div class="row">
+            <div class="col-12">
+                <h3>Create new blockchain address</h3>
+                @using (Html.BeginForm(null, null, FormMethod.Post))
+                {
+                    @Html.HiddenFor(x => x.Form.Id)
+                <div class="row">
+                    <div class="col-md-4">
+                        Currency : @Html.DropDownListFor(x=> x.Form.Currency, Model.Currencies, "Select a currency", new { @class = "form-control" }) <br />
+                        @Html.ValidationMessageFor(x => x.Form.Currency)
+                    </div>
+                    <div class="col-md-4">
+                        Chain/network : @Html.DropDownListFor(x=> x.Form.Chain, Model.Chains, "Select a chain/network", new { @class = "form-control" }) <br />
+                        @Html.ValidationMessageFor(x => x.Form.Chain)
+                    </div>
+                    <div class="col-md-3">
+                        <br />
+                        <input type="submit" value="Create address" class="btn btn-secondary loadingButton" />
+                    </div>
+                </div>
+                }
+            </div>
+            
+
+          </div>
+          <br /><br />
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Blockchain accounts for @Model.Wallet.Name</h3>
+
+                @if(Model.Accounts != null && Model.Accounts.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Chain</th>
+                                <th>Currency</th>
+                                <th>Address</th>
+                                <th>Address Tag</th>
+                            </tr>
+                        </thead>
+
+                        @foreach (var transaction in Model.Accounts)
+                        {
+                            <tr>
+                                <td>
+                                    @transaction.chain
+                                </td>
+                                <td>
+                                    @transaction.currency
+                                </td>
+                                
+                                <td>
+                                    @transaction.address
+                                </td>
+                                <td>
+                                    @transaction.addressTag
+                                </td>
+                                
+                                
+                            </tr>
+                        }
+
+                    </table>
+                }
+                else
+                {
+                    <p class="alert alert-info alert-dismissible">You do not have blockchain accounts in this wallet.</p>
+                }
+
+                
+            </div>
+        </div>
+        
+    </div>
+</div>
+

@@ -1,0 +1,83 @@
+﻿@model PayWave.Models.AddressBookModels.IndexAddressBookViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = "My addresses book";
+}
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            Manage your recipients to send money more easily
+        </p>
+        <ul class="actions">
+            <li><a href="@Url.Action("Add","AddressBook")" class="button btn btn-primary loadingButton">Add recipient</a></li>
+        </ul>
+    </section>
+}
+
+
+<div class="wrapper">
+    <div class="container" id="main">
+        <div class="row">
+            @if (Model.Receivers.Any())
+            {
+
+                <section class="col-9 col-12-narrower">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>WalletId/Alias/Blockchain Address</th>
+                                <th>Chain/network</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var receiver in Model.Receivers)
+                            {
+                            <tr>
+                                <td><a href="@Url.Action("View","AddressBook", new { id = receiver.Id })">@receiver.Name</a></td>
+                                <td>@receiver.Type</td>
+                                <td>@(receiver.Type == "blockchain"? receiver.BlockchainAddress: receiver.WalletId)</td>
+                                <td>@(receiver.Type == "blockchain"? receiver.Chain: "")</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </section>
+                <section class="col-3 col-12-narrower">
+                    <section id="sidebar">
+                        <section>
+                            <header>
+                                <h3>Transfer</h3>
+                            </header>
+                            <p>
+                                Make a new transfer to one of your recipients
+                            </p>
+                            <ul class="actions">
+                                <li><a href="@Url.Action("Send","Payment", null)" class="button">Make transfer</a></li>
+                            </ul>
+                        </section>
+                    </section>
+                </section>
+
+
+
+
+            }
+            else
+            {
+                <div class="col-12">
+                    <p class="alert alert-info alert-dismissible">You have no recipients added</p>
+                </div>
+                
+            }
+        </div>
+        </div>
+</div>

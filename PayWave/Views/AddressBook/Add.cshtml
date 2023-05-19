@@ -1,0 +1,123 @@
+﻿@model PayWave.Models.AddressBookModels.AddReceiverViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = "Add recipient";
+}
+
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            Enter the details of your new recipient
+        </p>
+        <ul class="actions">
+            <li><a href="@Url.Action("Index","AddressBook")" class="button btn btn-primary loadingButton">Back</a></li>
+        </ul>
+    </section>
+}
+
+
+<div class="wrapper">
+    <div class="container" id="main">
+        @using (Html.BeginForm())
+        {
+            <div class="row">
+                <div class="col-md-3">
+                    Name
+                </div>
+                <div class="col-md-5">
+                    @Html.TextBoxFor(x => x.Form.Name, new { @class = "form-control" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.Name)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        Enter the name with which you want to identify your recipient
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-3">
+                    Type
+                </div>
+                <div class="col-md-5">
+                    @Html.DropDownListFor(x => x.Form.Type, Model.Types, "Select a wallet type", new { @class = "form-control"}) <br />
+                    @Html.ValidationMessageFor(x => x.Form.Type)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        Select the type of wallet of your recipient
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-3">
+                    Wallet Id/Alias
+                </div>
+                <div class="col-md-5">
+                    @Html.TextBoxFor(x => x.Form.WalletId, new { @class = "form-control", placeholder="455214552 or nescampos" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.WalletId)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        If you selected wallet type, enter the wallet ID or recipient alias
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-3">
+                    Blockchain address
+                </div>
+                <div class="col-md-5">
+                    @Html.TextBoxFor(x => x.Form.BlockchainAddress, new { @class = "form-control", placeholder="0x123456....." }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.BlockchainAddress)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        If you selected blockchain type, enter the blockchain address
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-3">
+                    Chain
+                </div>
+                <div class="col-md-5">
+                    @Html.DropDownListFor(x => x.Form.Chain, Model.Chains, "Select a chain", new { @class = "form-control"}) <br />
+                    @Html.ValidationMessageFor(x => x.Form.Chain)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        If you selected blockchain type, enter the chain/network
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-3">
+                    Blockchain address tag
+                </div>
+                <div class="col-md-5">
+                    @Html.TextBoxFor(x => x.Form.BlockchainAddressTag, new { @class = "form-control", placeholder="any tag" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.BlockchainAddressTag)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        If you selected blockchain type and if necessary, enter the blockchain address tag
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary loadingButton" value="Add new recipient" />
+        }
+    </div>
+</div>

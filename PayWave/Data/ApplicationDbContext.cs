@@ -6,6 +6,7 @@ namespace PayWave.Data
     public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<Receiver> Receivers { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

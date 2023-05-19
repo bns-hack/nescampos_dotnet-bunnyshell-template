@@ -32,16 +32,15 @@
                 {
                     <section class="col-4 col-12-narrower">
                         <header>
-                            <h3>@Html.ActionLink(address.Name, "ViewAddress", "Wallet", new { id = address.Id }, new { @class = "loadingButton" })</h3>
+                            <h3>@Html.ActionLink(address.Name, "View", "Wallet", new { id = address.Id }, new { @class = "loadingButton" })</h3>
                         </header>
                         <p>
-                            balance available :
-                            <br />
                             Alias : <strong>@address.Alias</strong> <br />
                             Internal account : <strong>@address.Account</strong> <br />
                         </p>
                         <ul class="actions">
-                            <li><a href="@Url.Action("Edit","Wallet", new { id = address.Id })" class="btn btn-info loadingButton">Edit</a></li>
+                            <li><a href="@Url.Action("View","Wallet", new { id = address.Id })" class="btn btn-info loadingButton">View balances</a></li>
+                            <li><a href="@Url.Action("BlockchainAccounts","Wallet", new { id = address.Id })" class="btn btn-primary loadingButton">Blockchain accounts</a></li>
                         </ul>
                     </section>
                 }

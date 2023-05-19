@@ -86,7 +86,89 @@ namespace PayWave.Controllers
             {
                 return View("Unauthorized");
             }
+            var client = new RestClient(_configuration["CircleAPIBaseUrl"]);
+            var request = new RestRequest("/wallets/"+model.Wallet.Account, Method.Get);
+            request.AddHeader("accept", "application/json");
+            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+            RestResponse<WalletDTO> response = client.Execute<WalletDTO>(request);
+            if (response.IsSuccessStatusCode)
+            {
+                model.Balances = response.Data.data.balances;
+            }
             return View(model);
         }
+
+        public IActionResult BlockchainAccounts(long id)
+        {
+            BlockchainAccountsViewModel model = new BlockchainAccountsViewModel(_db, id);
+            if (model.Wallet.UserId != User.Identity.Name)
+            {
+                return View("Unauthorized");
+            }
+            var client = new RestClient(_configuration["CircleAPIBaseUrl"]);
+            var request = new RestRequest("/wallets/" + model.Wallet.Account+"/addresses", Method.Get);
+            request.AddHeader("accept", "application/json");
+            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+            RestResponse<BlockchainAccountDTO> response = client.Execute<BlockchainAccountDTO>(request);
+            if (response.IsSuccessStatusCode)
+            {
+                model.Accounts = response.Data.data;
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult BlockchainAccounts(BlockchainAccountsFormModel Form)
+        {
+            BlockchainAccountsViewModel model = new BlockchainAccountsViewModel(_db, Form.Id);
+            if (model.Wallet.UserId != User.Identity.Name)
+            {
+                return View("Unauthorized");
+            }
+            model.Form = Form;
+            if (!ModelState.IsValid)
+            {
+                var client2 = new RestClient(_configuration["CircleAPIBaseUrl"]);
+                var request2 = new RestRequest("/wallets/" + model.Wallet.Account + "/addresses", Method.Get);
+                request2.AddHeader("accept", "application/json");
+                request2.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+                RestResponse<BlockchainAccountDTO> response2 = client2.Execute<BlockchainAccountDTO>(request2);
+                if (response2.IsSuccessStatusCode)
+                {
+                    model.Accounts = response2.Data.data;
+                }
+                return View(model);
+            }
+            Guid idempotencyKey = Guid.NewGuid();
+
+            var client = new RestClient(_configuration["CircleAPIBaseUrl"]);
+            var request = new RestRequest("/wallets/" + model.Wallet.Account + "/addresses", Method.Post);
+            request.AddHeader("accept", "application/json");
+            request.AddHeader("content-type", "application/json");
+            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+            request.AddParameter("application/json", "{\"currency\":\""+Form.Currency+ "\",\"chain\":\"" + Form.Chain + "\",\"idempotencyKey\":\"" + idempotencyKey + "\"}", ParameterType.RequestBody);
+            RestResponse response = client.Execute(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("BlockchainAccounts", new { id = Form.Id });
+            }
+            else
+            {
+                var client2 = new RestClient(_configuration["CircleAPIBaseUrl"]);
+                var request2 = new RestRequest("/wallets/" + model.Wallet.Account + "/addresses", Method.Get);
+                request2.AddHeader("accept", "application/json");
+                request2.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+                RestResponse<BlockchainAccountDTO> response2 = client2.Execute<BlockchainAccountDTO>(request2);
+                if (response2.IsSuccessStatusCode)
+                {
+                    model.Accounts = response2.Data.data;
+                }
+                ModelState.AddModelError("Form.Currency", "Error creating a new wallet. Please, try again or verify if an existing account can be used (in the same chain).");
+                return View(model);
+            }
+        }
+
+
     }
 }
