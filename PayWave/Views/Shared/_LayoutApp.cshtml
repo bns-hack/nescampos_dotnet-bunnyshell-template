@@ -24,21 +24,19 @@
                 <nav id="nav">
                     <ul>
                         <li>
-                            <a href="#">Options</a>
+                            <a asp-area="" asp-controller="Payment" asp-action="Index">Transfers</a>
                             <ul>
                                 <li>
                                     <a asp-area="" asp-controller="Payment" asp-action="Index">Payments</a>
-                                    <ul>
-                                        <li><a asp-area="" asp-controller="Payment" asp-action="Index">Payments</a></li>
-                                        <li><a href="@Url.Action("Send","Payment", null)">Send money</a></li>
-                                        <li><a href="@Url.Action("GenerateTransactionLink","Payment", null)">Create payment link</a></li>
-                                    </ul>
+                                    <a href="@Url.Action("Send","Payment", null)">Send money</a>
+                                    <a href="@Url.Action("SendPersonal","Payment", null)">Move money between accounts</a>
+                                    <a href="@Url.Action("GenerateTransactionLink","Payment", null)">Create payment link</a>
                                 </li>
                             </ul>
                         </li>
                         <li><a asp-area="" asp-controller="Wallet" asp-action="Index">Wallets</a></li>
                         <li class="break"><a asp-area="" asp-controller="AddressBook" asp-action="Index">Address book</a></li>
-                        @*<partial name="_LoginPartialApp" />*@
+                        <partial name="_LoginPartialApp" />
                     </ul>
                 </nav>
 
