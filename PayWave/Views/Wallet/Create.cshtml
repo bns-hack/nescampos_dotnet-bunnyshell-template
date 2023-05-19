@@ -1,0 +1,66 @@
+﻿@model PayWave.Models.WalletModels.CreateWalletViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = "Create new wallet";
+}
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            Create your new wallet to manage your money
+        </p>
+        <ul class="actions">
+            <li><a href="@Url.Action("Index","Wallet", null)" class="btn btn-info loadingButton">Back</a></li>
+        </ul>
+    </section>
+}
+
+
+<div class="wrapper">
+    <div class="container" id="main">
+        <br /><br />
+        @using (Html.BeginForm())
+        {
+            <div class="row" id="walletName">
+                <div class="col-md-3">
+                    Name
+                </div>
+                <div class="form-group col-md-4">
+                    @Html.TextBoxFor(x => x.Form.Name, new { @class = "form-control" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.Name)
+                </div>
+                <div class="col-md-5">
+                    <div class="alert alert-success" role="alert">
+                        Enter the name with which you want to identify this account
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="walletAlias">
+                <div class="col-md-3">
+                    Alias
+                </div>
+                <div class="form-group col-md-4">
+                    @Html.TextBoxFor(x => x.Form.Alias, new { @class = "form-control" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.Alias)
+                </div>
+                <div class="col-md-5">
+                    <div class="alert alert-success" role="alert">
+                        Enter an alias or unique name to share with your friends to get paid without sharing your real address
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <input type="submit" class="btn btn-primary loadingButton" value="Create" />
+            </div>
+
+        }
+    </div>
+</div>
+

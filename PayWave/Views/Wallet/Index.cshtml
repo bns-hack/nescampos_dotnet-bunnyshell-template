@@ -1,0 +1,59 @@
+﻿@model PayWave.Models.WalletModels.IndexWalletViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = "My wallets";
+}
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            Check your wallets and manage them to be able to send and receive money
+        </p>
+        <ul class="actions">
+            <li id="createnewwallet"><a href="@Url.Action("Create","Wallet")" class="button btn btn-primary loadingButton">Create new wallet</a></li>
+        </ul>
+    </section>
+}
+
+
+<div class="wrapper">
+    <div class="container" id="main">
+        <div class="row">
+            @if (Model.Wallets.Any())
+            {
+                foreach (var address in Model.Wallets)
+                {
+                    <section class="col-4 col-12-narrower">
+                        <header>
+                            <h3>@Html.ActionLink(address.Name, "ViewAddress", "Wallet", new { id = address.Id }, new { @class = "loadingButton" })</h3>
+                        </header>
+                        <p>
+                            balance available :
+                            <br />
+                            Alias : <strong>@address.Alias</strong> <br />
+                            Internal account : <strong>@address.Account</strong> <br />
+                        </p>
+                        <ul class="actions">
+                            <li><a href="@Url.Action("Edit","Wallet", new { id = address.Id })" class="btn btn-info loadingButton">Edit</a></li>
+                        </ul>
+                    </section>
+                }
+            }
+            else
+            {
+                <div class="col-12">
+                    <p class="alert alert-info alert-dismissible">You do not have registered wallets</p>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>

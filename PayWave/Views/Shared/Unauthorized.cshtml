@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = Localizer["No autorizado"];
+}
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            @Localizer["No tienes permiso para acceder a esta página o ejecutar la acción anterior."]
+        </p>
+        <ul class="actions">
+            <li><button onclick="history.back()" class="button btn btn-primary loadingButton">@Localizer["Volver"]</button></li>
+        </ul>
+    </section>
+}
+
