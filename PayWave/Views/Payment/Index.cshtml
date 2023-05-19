@@ -1,0 +1,96 @@
+﻿@model PayWave.Models.PaymentModels.IndexPaymentViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = "Transfers and payments";
+}
+
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            Review all your movements and make payments/transfers
+        </p>
+        <ul class="actions">
+            <li><a href="@Url.Action("SendPersonal","Payment", null)" class="btn btn-primary loadingButton">Move money between accounts</a></li>
+            <li><a href="@Url.Action("SendSelector","Payment", null)" class="btn btn-info loadingButton">Send money to a third party</a></li>
+            <li><a href="@Url.Action("GenerateTransactionLink","Payment", null)" class="btn btn-secondary loadingButton">Create payment link</a></li>
+           
+        </ul>
+    </section>
+}
+
+<div class="wrapper">
+    <div class="container" id="main">
+        
+        <div class="row">
+            <div class="col-12">
+                @using (Html.BeginForm(null, null, FormMethod.Get))
+                {
+                <div class="row">
+                    <div class="col-md-3">
+                        Wallet:@Html.DropDownList("walletId", Model.Wallets, "Select a wallet", new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        From: <input type="date" name="from" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        To: <input type="date" name="to" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <br />
+                        <input type="submit" value="Filter" class="btn btn-secondary loadingButton" />
+                    </div>
+                </div>
+                }
+            </div>
+            
+
+            </div>
+        <br /><br />
+        @if (Model.TransferList != null && Model.TransferList.Any())
+        {
+            <div class="row">
+            <div class="col-12">
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Options</th>
+                        <th>Date</th>
+                        <th>Source</th>
+                        <th>Destination</th>
+                        <th>Amount</th>
+                        <th>Currency</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var payment in Model.TransferList)
+                    {
+                        <tr class="table-success">
+                            <td>@Html.ActionLink("Details", "Details", "Payment", new { id = payment.id }, new { @class = "loadingButton" })</td>
+                            <td>@payment.createDate</td>
+                            <td>@payment.source.id</td>
+                            <td>@(payment.destination.id != null? payment.destination.id: payment.destination.address)</td>
+                            <td>@(payment.amount.amount)</td>
+                            <td>@(payment.amount.currency)</td>
+                            <td>@(payment.status)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            </div>
+            </div>
+        }
+        else
+        {
+            <p class="alert alert-info alert-dismissible fade show">You need to select filter or you have not made transfers yet.</p>
+        }
+    </div>
+</div>

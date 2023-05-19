@@ -25,5 +25,7 @@ namespace PayWave.Data
         [Required]
         public string UserId { get; set; }
 
+        public string AddressBookRecipientId { get; set; }
+
     }
 }

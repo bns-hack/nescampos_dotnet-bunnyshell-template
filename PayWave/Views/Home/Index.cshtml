@@ -1,8 +1,77 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Digital wallet without bank";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<header class="header d-flex justify-content-center">
+    <div class="container">
+        <div class="row h-100 align-items-center">
+            <div class="col-md-7">
+                <div class="header-content">
+                    <h3 class="header-title"><strong class="text-primary">Pay</strong><span class="text-light">Wave</span></h3>
+                    <h4 class="header-subtitle">"Digital wallet without bank"</h4>
+                    <p>We are a payment system for everyone, with a focus on the unbanked population or without access to digital payment methods.</p>
+                    <p>Send and receive payments directly, without paperwork and instantly. Control of your money is yours.</p>
+                    @*<p>@Localizer["Asocia tus cuentas de proveedores Interledger Protocol y gestiónalas desde un solo lugar de forma sencilla."]</p>*@
+                    <p>
+                        What can you do with PayWave?
+                        <ul>
+                            <li>Manage all your wallets in one place</li>
+                            <li>Send and receive money in different currencies instantly </li>
+                            <li>Manage your recipients</li>
+                            <li>Integrate payments on your website or create payment links to share</li>
+                            <li>And much more.</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-5 d-none d-md-block">
+
+                <div class="footer">
+                    @if (User.Identity.IsAuthenticated)
+                                    {
+                        <a class="btn btn-primary btn-block loadingButton" asp-controller="Profile" asp-action="Index">See my account</a>
+                                }
+                    else
+                    {
+                        <a class="btn btn-primary btn-block loadingButton" asp-area="Identity" asp-page="/Account/Register">Start using it</a>
+                            }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="section" id="about">
+    <div class="container text-center">
+        <h6 class="display-4 has-line upper-text">Why PayWave?</h6>
+        <p class="mb-5 pb-4"></p>
+
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="circle-100 mb-3"><i class="ti-light-bulb"></i></div>
+                <h6 class="title mb-3">Inclusive</h6>
+                <p>Send and receive money instantly, without the need for a bank account</p>
+            </div>
+            <div class="col-lg-4">
+                <div class="circle-100 mb-3"><i class="ti-paint-bucket"></i></div>
+                <h6 class="title mb-3">Simple</h6>
+                <p>Our focus is to simplify sending and receiving money. We are also users and we want to make things easier.</p>
+            </div>
+            <div class="col-lg-4">
+                <div class="circle-100 mb-3"><i class="ti-marker-alt"></i></div>
+                <h6 class="title mb-3">Global</h6>
+                <p>Send and receive money without worrying about where the other person/company resides.</p>
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+<section class="section has-img-bg text-center">
+    <div class="container">
+        <h6 class="display-3 has-line">Register</h6>
+        <h5 class="mb-5 font-weight-light">You can use PayWave right now</h5>
+        <a class="btn btn-outline-light btn-flat loadingButton" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </div>
+</section>

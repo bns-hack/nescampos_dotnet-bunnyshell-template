@@ -14,11 +14,11 @@
 
         <!-- Header -->
         <div id="header-wrapper">
-            <a class="image" href="@Url.Action("Index","Home")"><img src="~/images/cover-peerpay.png" style="width:200px;" class="img-fluid" alt="PeerPay" /></a>
+            <a class="image" href="@Url.Action("Index","Home")"><img src="~/images/cover.png" style="width:200px;" class="img-fluid" alt="PayWave" /></a>
             <div id="header" class="container">
 
                 <!-- Logo -->
-                <h1 id="logo"><a href="@Url.Action("Index","Profile")">My account</a></h1>
+                <h1 id="logo"><a href="@Url.Action("Index","Wallet")">Wallets</a></h1>
 
                 <!-- Nav -->
                 <nav id="nav">
@@ -28,13 +28,12 @@
                             <ul>
                                 <li>
                                     <a asp-area="" asp-controller="Payment" asp-action="Index">Payments</a>
-                                    <a href="@Url.Action("Send","Payment", null)">Send money</a>
+                                    <a href="@Url.Action("SendSelector","Payment", null)">Send money</a>
                                     <a href="@Url.Action("SendPersonal","Payment", null)">Move money between accounts</a>
                                     <a href="@Url.Action("GenerateTransactionLink","Payment", null)">Create payment link</a>
                                 </li>
                             </ul>
                         </li>
-                        <li><a asp-area="" asp-controller="Wallet" asp-action="Index">Wallets</a></li>
                         <li class="break"><a asp-area="" asp-controller="AddressBook" asp-action="Index">Address book</a></li>
                         <partial name="_LoginPartialApp" />
                     </ul>
@@ -50,7 +49,7 @@
         <div id="footer-wrapper">
             <div id="footer" class="container">
                 <header class="major">
-                    <a class="image" href="@Url.Action("Index","Home")"><img src="~/images/cover-peerpay.png" style="width:200px;" class="img-fluid" alt="PeerPay" /></a>
+                    <a class="image" href="@Url.Action("Index","Home")"><img src="~/images/cover.png" style="width:200px;" class="img-fluid" alt="PayWave" /></a>
                 </header>
                 <div class="row">
                     <section class="col-6 col-12-narrower">

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PayWave.Data;
 using PayWave.Models;
 using System.Diagnostics;
 
@@ -6,11 +8,12 @@ namespace PayWave.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private IConfiguration _configuration;
+        private ApplicationDbContext _db { get; set; }
+        public HomeController(IConfiguration configuration, ApplicationDbContext db)
         {
-            _logger = logger;
+            _configuration = configuration;
+            _db = db;
         }
 
         public IActionResult Index()

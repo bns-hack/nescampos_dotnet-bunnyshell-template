@@ -1,8 +1,8 @@
-﻿@model PayWave.Models.PaymentModels.SendPersonalPaymentViewModel
+﻿@model PayWave.Models.PaymentModels.SendPaymentViewModel
 
 @{
     Layout = "~/Views/Shared/_LayoutApp.cshtml";
-    ViewData["Title"] = "Move money between accounts";
+    ViewData["Title"] = "Send money";
 }
 
 @section HeaderSection
@@ -14,11 +14,11 @@
             </h2>
         </header>
         <p>
-            Move money from one account to another in moments
+            Send money to one of your recipients
         </p>
         <ul class="actions">
-            <li><a href="@Url.Action("Index","Payment", null)" class="btn btn-primary loadingButton">Back</a></li>
-            <li><a href="@Url.Action("SendSelector","Payment", null)" class="btn btn-info loadingButton">Send money to a third party</a></li>
+            <li><a href="@Url.Action("SendSelector","Payment", null)" class="btn btn-primary loadingButton">Back</a></li>
+            <li><a href="@Url.Action("Index","AddressBook", null)" class="btn btn-info loadingButton">Manage recipients</a></li>
             @*<li><a href="@Url.Action("SendDeferredSelector","Payment", null)" class="btn btn-success loadingButton" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Localizer["Envía dinero para ser cobrado en una fecha posterior"]">@Localizer["Enviar dinero diferido"]</a></li>*@
 
         </ul>
@@ -32,7 +32,7 @@
         {
             <div class="row mt-2">
                 <div class="col-md-2">
-                    Source account: 
+                    Account: 
                 </div>
                 <div class="col-md-6">
                     @Html.DropDownListFor(x => x.Form.OriginWalletId, Model.WalletSelectList, "Select your origin address", new { @class = "form-control" }) <br />
@@ -49,8 +49,8 @@
                     Destination account: 
                 </div>
                 <div class="col-md-6">
-                    @Html.DropDownListFor(x => x.Form.DestinationWalletId, Model.WalletSelectList, "Select your destination address", new { @class = "form-control" }) <br />
-                    @Html.ValidationMessageFor(x => x.Form.DestinationWalletId)
+                    @Html.DropDownListFor(x => x.Form.RecipientId, Model.Destinations, "Select your recipient", new { @class = "form-control" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.RecipientId)
                 </div>
                 <div class="col-md-3">
                     <div class="alert alert-success" role="alert">
@@ -74,18 +74,32 @@
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    Currency:
+                    Origin urrency:
                 </div>
                 <div class="col-md-6">
-                    @Html.DropDownListFor(x => x.Form.Currency, Model.Currencies, "Select the currency", new { @class = "form-control" }) <br />
-                    @Html.ValidationMessageFor(x => x.Form.Currency)
+                    @Html.DropDownListFor(x => x.Form.OriginCurrency, Model.Currencies, "Select the currency", new { @class = "form-control" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.OriginCurrency)
                 </div>
                 <div class="col-md-3">
                     <div class="alert alert-success" role="alert">
-                        Enter the currency to use
+                        Select the currency for sending the payment
                     </div>
                 </div>
-            </div>
+            </div>@*
+            <div class="row">
+                <div class="col-md-2">
+                    Destination currency:
+                </div>
+                <div class="col-md-6">
+                    @Html.DropDownListFor(x => x.Form.DestinationCurrency, Model.Currencies, "Select the currency", new { @class = "form-control" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.DestinationCurrency)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        Select the currency for receiving the payment
+                    </div>
+                </div>
+            </div>*@
 
             <div class="row">
                 <div class="col-md-3">
@@ -98,9 +112,3 @@
         }
     </div>
 </div>
-
-
-@section Scripts {
-    <script src="https://unpkg.com/xrpl@2.0.0/build/xrpl-latest-min.js"></script>
-
-}

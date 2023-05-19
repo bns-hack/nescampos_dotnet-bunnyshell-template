@@ -68,41 +68,7 @@
                 
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h3>Last payments</h3>
-
-                @*<table class="table">
-                    <thead>
-                        <tr>
-                            <th>@Localizer["Destinatario"]</th>
-                            <th>@Localizer["Fecha"]</th>
-                            <th>@Localizer["Monto"]</th>
-                            <th>@Localizer["Comentario"]</th>
-                        </tr>
-                    </thead>
-
-                    @foreach (var transaction in Model.LastFivePayments)
-                    {
-                        <tr>
-                            <td>
-                                @transaction.DestinationAddress
-                            </td>
-                            <td>
-                                @transaction.CreatedAt.ToLocalTime()
-                            </td>
-                            <td>
-                                @transaction.Amount
-                            </td>
-                            <td>
-                                @transaction.Comments
-                            </td>
-                        </tr>
-                    }
-
-                </table>*@
-            </div>
-        </div>
+        
     </div>
 </div>
 
