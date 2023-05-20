@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutApp.cshtml";
-    ViewData["Title"] = "Send money";
+    ViewData["Title"] = "Send cross-currency money";
 }
 
 @section HeaderSection
@@ -14,10 +14,10 @@
             </h2>
         </header>
         <p>
-            Send money to one of your recipients
+            Send money to one of your recipients in different currencies
         </p>
         <ul class="actions">
-            <li><a href="@Url.Action("Index","Payment", null)" class="btn btn-primary loadingButton">Back</a></li>
+            <li><a href="@Url.Action("SendSelector","Payment", null)" class="btn btn-primary loadingButton">Back</a></li>
             <li><a href="@Url.Action("Index","AddressBook", null)" class="btn btn-info loadingButton">Manage recipients</a></li>
             @*<li><a href="@Url.Action("SendDeferredSelector","Payment", null)" class="btn btn-success loadingButton" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Localizer["Envía dinero para ser cobrado en una fecha posterior"]">@Localizer["Enviar dinero diferido"]</a></li>*@
 
@@ -28,6 +28,10 @@
 
 <div class="wrapper">
     <div class="container" id="main">
+        <div class="row">
+            <h3>Available currencies exchanges</h3>
+            <table class="table"><thead><tr><th>from </th><th>toy</th></tr></thead><tbody><tr><td>USD</td><td>USD</td></tr><tr><td>USD</td><td>BTC</td></tr><tr><td>USD</td><td>ETH</td></tr><tr><td>USD</td><td>MTC</td></tr><tr><td>EUR</td><td>EUR</td></tr><tr><td>BTC</td><td>USD</td></tr><tr><td>BTC</td><td>BTC</td></tr><tr><td>ETH</td><td>USD</td></tr><tr><td>ETH</td><td>ETH</td></tr></tbody></table>
+        </div>
         @using (Html.BeginForm())
         {
             <div class="row mt-2">
@@ -85,7 +89,7 @@
                         Select the currency for sending the payment
                     </div>
                 </div>
-            </div>@*
+            </div>
             <div class="row">
                 <div class="col-md-2">
                     Destination currency:
@@ -99,7 +103,7 @@
                         Select the currency for receiving the payment
                     </div>
                 </div>
-            </div>*@
+            </div>
 
             <div class="row">
                 <div class="col-md-3">
@@ -110,5 +114,6 @@
                 </div>
             </div>
         }
+        
     </div>
 </div>

@@ -38,10 +38,11 @@
                         <img src="~/images/cover.png" alt="PayWave" class="img-fluid" style="width:120px;" />
                     </a>
                     <br /><br />
-                    @Html.ActionLink("Send cross-currency", "Send", "Payment", new { }, new { @class = "btn btn-info loadingButton" })
+                    @Html.ActionLink("Send cross-currency (only blockchain recipients)", "SendCross", "Payment", new { }, new { @class = "btn btn-info loadingButton" })
                     <br /><br />
                     <div class="alert alert-success" role="alert">
-                        <b>Send a type of money (USDC, EURC, BTC, or ETH) and the recipient can receive it in another asset. If you send BTC, the recipient could USDC. It only works with receivers that you have added of the "blockchain" type.</b>
+                        <b>Send a type of money (USDC, EURC, BTC, or ETH) and the recipient can receive it in another asset. If you send BTC, the recipient could USDC. It only works with receivers that you have added of the "blockchain" type.</b><br />
+                        <b>It works just with Blockchain recipients.</b>
                     </div>
                 </div>
 

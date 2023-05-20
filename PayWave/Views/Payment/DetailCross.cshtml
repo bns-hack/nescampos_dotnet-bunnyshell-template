@@ -1,0 +1,75 @@
+﻿@model PayWave.Models.PaymentModels.DetailsCrossPaymentViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = "Payment details";
+}
+
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            Check the full details of this payment
+        </p>
+        <ul class="actions">
+            <li><a href="@Url.Action("Index","Payment", null)" class="btn btn-primary loadingButton">Back</a></li>
+        </ul>
+    </section>
+}
+
+<div class="wrapper">
+    <div class="container" id="main">
+        <div class="row">
+            <div class="col-md-8">
+
+                <h3>Recipient information</h3>
+                
+
+                @if (Model.DestinationWalletWallet != null)
+                {
+                    <p>
+                        Name: @Model.DestinationWalletWallet.Name <br />
+                        Address: @Model.DestinationWalletWallet.BlockchainAddress <br />
+                        Chain: @Model.DestinationWalletWallet.Chain <br />
+                    </p>
+                }
+                
+                <p>
+                    Payment Id: @Model.response.Data.data.id <br />
+                    Amount (from): @Model.response.Data.data.amount.amount <br />
+                    Currency (from): @Model.response.Data.data.amount.currency <br />
+                    Amount (to): @Model.response.Data.data.toAmount.amount <br />
+                    Currency (to): @Model.response.Data.data.toAmount.currency <br />
+                    @*Fees: @Model.response.Data.data.fees.amount <br />
+                    Currency fees: @Model.response.Data.data.fees.currency <br />*@
+                    Status: @Model.response.Data.data.status <br />
+                    @if(Model.response.Data.data.status == "failed")
+                    {
+                        <span>Failure Reason: @Model.response.Data.data.errorCode </span><br />
+                    }
+                </p>
+                
+            </div>
+            <div class="col-md-4">
+                <h3>Source wallet</h3>
+                @if (Model.OriginWallet != null)
+                {
+                    <p>
+                        Name: @Model.OriginWallet.Name <br />
+                        Alias: @Model.OriginWallet.Alias <br />
+                        Account Id: @Model.OriginWallet.Account <br />
+                    </p>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

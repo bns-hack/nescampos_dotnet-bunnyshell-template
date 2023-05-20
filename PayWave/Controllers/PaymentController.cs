@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PayWave.Data;
 using PayWave.Models.DTO;
 using PayWave.Models.PaymentModels;
@@ -172,5 +173,71 @@ namespace PayWave.Controllers
                 }
             }
         }
+
+        public IActionResult SendCross()
+        {
+            SendPaymentViewModel model = new SendPaymentViewModel(_db, User.Identity.Name);
+            model.Destinations = _db.Receivers.Where(x => x.UserId == User.Identity.Name && x.AddressBookRecipientId != "").OrderBy(x => x.Name).Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult SendCross(SendPaymentFormModel Form)
+        {
+            SendPaymentViewModel model = new SendPaymentViewModel(_db, User.Identity.Name);
+            model.Form = Form;
+            if(string.IsNullOrEmpty(Form.DestinationCurrency))
+            {
+                ModelState.AddModelError("Form.DestinationCurrency", "The destination currency is required.");
+            }
+            if (!ModelState.IsValid)
+            {
+                model.Destinations = _db.Receivers.Where(x => x.UserId == User.Identity.Name && x.AddressBookRecipientId != "").OrderBy(x => x.Name).Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+                return View(model);
+            }
+            Wallet walletOrigin = _db.Wallets.SingleOrDefault(x => x.Id == Form.OriginWalletId.Value);
+            Receiver walletDestination = _db.Receivers.SingleOrDefault(x => x.Id == Form.RecipientId.Value);
+
+            if (walletOrigin.UserId != User.Identity.Name || walletDestination.UserId != User.Identity.Name)
+            {
+                return View("Unauthorized");
+            }
+
+            Guid idempotencyKey = Guid.NewGuid();
+            var client = new RestClient(_configuration["CircleAPIBaseUrl"]);
+            var request = new RestRequest("/payouts", Method.Post);
+            request.AddHeader("accept", "application/json");
+            request.AddHeader("content-type", "application/json");
+            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+
+            request.AddParameter("application/json", "{\"source\":{\"type\":\"wallet\",\"id\":\"" + walletOrigin.Account + "\"},\"destination\":{\"type\":\"address_book\",\"id\":\""+ walletDestination.AddressBookRecipientId+ "\"},\"amount\":{\"currency\":\"" + Form.OriginCurrency + "\",\"amount\":\"" + Form.Amount + "\"},\"toAmount\":{\"currency\":\"" + Form.DestinationCurrency + "\"},\"idempotencyKey\":\"" + idempotencyKey + "\"}", ParameterType.RequestBody);
+            RestResponse<PayoutDTO> response = client.Execute<PayoutDTO>(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("DetailCross", new { id = response.Data.data.id });
+            }
+            else
+            {
+                model.Destinations = _db.Receivers.Where(x => x.UserId == User.Identity.Name && x.AddressBookRecipientId != "").OrderBy(x => x.Name).Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+                ModelState.AddModelError("Form.OriginWalletId", "Error in send the payment, check the currencies. Please, try again later.");
+                return View(model);
+            }
+
+        }
+
+        public ActionResult DetailCross(string id)
+        {
+            Guid idempotencyKey = Guid.NewGuid();
+            var client = new RestClient(_configuration["CircleAPIBaseUrl"]);
+            var request = new RestRequest("/payouts/" + id, Method.Get);
+            request.AddHeader("accept", "application/json");
+            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+            RestResponse<PayoutDTO> response = client.Execute<PayoutDTO>(request);
+            DetailsCrossPaymentViewModel model = new DetailsCrossPaymentViewModel(_db, response);
+            return View(model);
+        }
+
+
     }
 }
