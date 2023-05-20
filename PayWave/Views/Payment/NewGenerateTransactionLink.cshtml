@@ -1,0 +1,57 @@
+﻿@model PayWave.Models.PaymentModels.NewGenerateTransactionLinkViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = "Payment link generated";
+}
+
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            Copy the generated link or QR code and share it with whoever you want
+        </p>
+        <ul class="actions">
+            <li><a href="@Url.Action("Index","Payment", null)" class="btn btn-primary loadingButton">Back</a></li>
+        </ul>
+    </section>
+}
+
+
+<div class="wrapper">
+    <div class="container" id="main">
+        <div class="row">
+            <div class="col-md-8">
+                <h3>Your link was generated</h3>
+                <p>
+                    Share with friend: <br /> @Html.Raw(Model.Link)
+                    <button class="copyClipboardButton btn btn-secondary">copy link</button>
+                    <input type="hidden" value="@Html.Raw(Model.Link)" class="textToClipboard" /> <br />
+                    <span class="textLinkCopied" style="display:none;">Link copied</span>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h3>QR</h3>
+                <div id="qrcode_address"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="/js/jquery.qrcode.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#qrcode_address').qrcode('@Html.Raw(Model.Link)');
+        })
+
+    </script>
+}
+

@@ -7,6 +7,7 @@ namespace PayWave.Data
     {
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet<Receiver> Receivers { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

@@ -1,0 +1,55 @@
+﻿@model string
+
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = "Failed to create transaction";
+}
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            The transaction was not created correctly
+        </p>
+        @if (Model != null)
+        {
+            <ul class="actions">
+                <li><a href="@Model" class="btn btn-info loadingButton">Back to website</a></li>
+            </ul>
+
+        }
+
+    </section>
+}
+
+<div class="wrapper">
+    <div class="container" id="main">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="row mt-5">
+                <div class="col-md-5">
+                    <h4>Error</h4>
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            @foreach (var modelState in ViewData.ModelState)
+                            {
+                                foreach (var error in modelState.Value.Errors)
+                                {
+                                    <li>@error.ErrorMessage</li>
+                                }
+
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

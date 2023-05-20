@@ -1,0 +1,153 @@
+﻿@model PayWave.Models.PaymentModels.PaymentDemoViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = "Demo for payments";
+}
+
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            Review how to integrate payments in your app/web
+        </p>
+        <ul class="actions">
+            <li><a href="@Url.Action("Index","Payment", null)" class="btn btn-info loadingButton">Back</a></li>
+        </ul>
+    </section>
+}
+
+
+<div class="wrapper">
+    <div class="container" id="main">
+        <div class="row h-50 align-items-center">
+            <div class="col-md-12">
+                <div class="header-content">
+                    <h3 class="header-title"><strong class="text-primary">@ViewData["Title"]</strong></h3>
+                    <p>This is an example of how you can use a form on your website to create transactions for payments for your products and services.</p>
+                    <p>You need to send a POST request from your website to the URL: <b>@Model.Link</b> with the attributes explained below: </p>
+                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                @using (Html.BeginForm("CreateTransaction", "Payment", FormMethod.Post))
+    {
+        <div class="row mt-5">
+            <div class="col-md-3">
+                Amount (required)
+            </div>
+            <div class="form-group col-md-5">
+                @Html.TextBoxFor(x => x.Form.Amount, new { @class = "form-control", required = "required", placeholder = "10" }) <br />
+                @Html.ValidationMessageFor(x => x.Form.Amount)
+            </div>
+            <div class="col-md-3">
+                <div class="alert alert-success" role="alert">
+                    This field is called "Amount". <br />
+                    In this field, you must enter the amount to receive.
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                Currency (required)
+            </div>
+            <div class="form-group col-md-5">
+                @Html.DropDownListFor(x => x.Form.Currency, Model.Currencies, "Select the currency", new { @class = "form-control", required = "required" }) <br />
+                @Html.ValidationMessageFor(x => x.Form.Currency)
+            </div>
+            <div class="col-md-3">
+                <div class="alert alert-success" role="alert">
+                    This field is called "Currency". <br />
+                    You must specify the type of currency in which the amount to be received is associated, you must put any of the values shown in the field.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                What wallet will you be paid to? (required)
+            </div>
+            <div class="form-group col-md-5">
+                @Html.TextBoxFor(x => x.Form.WalletId, new { @class = "form-control", required = "required", placeholder = "1, 303" }) <br />
+                @Html.ValidationMessageFor(x => x.Form.WalletId)
+            </div>
+            <div class="col-md-3">
+                <div class="alert alert-success" role="alert">
+                    This field is called "WalletId". <br />
+                    Here you must specify the PayWave Id of your wallet (it is a number). You can see it in the detail of each wallet.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                Title (optional)
+            </div>
+            <div class="form-group col-md-5">
+                @Html.TextBoxFor(x => x.Form.Title, new { @class = "form-control", placeholder = "Payment per sale of product X" }) <br />
+                @Html.ValidationMessageFor(x => x.Form.Title)
+            </div>
+            <div class="col-md-3">
+                <div class="alert alert-success" role="alert">
+                    This field is called "Title". <br />
+                    You can specify the title in the payment form.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                Subtitle (optional)
+            </div>
+            <div class="form-group col-md-5">
+                @Html.TextBoxFor(x => x.Form.Subtitle, new { @class = "form-control", placeholder = "Product X is a type of.." }) <br />
+                @Html.ValidationMessageFor(x => x.Form.Subtitle)
+            </div>
+            <div class="col-md-3">
+                <div class="alert alert-success" role="alert">
+                    This field is called "Subtitle". <br />
+                    You can specify the subtitle in the payment form.
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                Expiration date (optional)
+            </div>
+            <div class="form-group col-md-5">
+                @Html.TextBoxFor(x => x.Form.ExpiredDate, new { @class = "form-control", type = "date" }) <br />
+                @Html.ValidationMessageFor(x => x.Form.ExpiredDate)
+            </div>
+            <div class="col-md-3">
+                <div class="alert alert-success" role="alert">
+                    This field is called "ExpiredDate". <br />
+                    If you want to set a deadline for the payment, here you can select the date.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <br>
+            </div>
+            <div class="col-2">
+                <input type="submit" class="btn btn-primary" value="Create transaction" /> <br>
+            </div>
+            <div class="col-4">
+                <p class="alert alert-info alert-dismissible">If everything is correct, you will arrive at the same transaction confirmation page that your user/customer should see.</p>
+            </div>
+            
+        </div>
+
+    }
+            </div>
+        </div>
+        
+    </div>
+</div>

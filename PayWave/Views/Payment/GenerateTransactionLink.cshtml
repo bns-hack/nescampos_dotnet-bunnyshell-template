@@ -1,0 +1,155 @@
+﻿@model PayWave.Models.PaymentModels.GenerateTransactionLinkViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = "Create payment link";
+}
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            Create a payment link to share with your friends/customers
+        </p>
+        <ul class="actions">
+            <li><a href="@Url.Action("Index","Payment", null)" class="btn btn-primary loadingButton">Back</a></li>
+        </ul>
+    </section>
+}
+
+<div class="wrapper">
+    <div class="container" id="main">
+
+        @using (Html.BeginForm())
+        {
+            <div class="row">
+                <div class="col-md-3">
+                    What wallet will they pay you to?
+                </div>
+                <div class="form-group col-md-5">
+                    @Html.DropDownListFor(x => x.Form.WalletId, Model.Wallets, "Select your wallet", new { @class = "form-control" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.WalletId)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        Here you must specify your wallet where you will receive the payment.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    Amount
+                </div>
+                <div class="form-group col-md-5">
+                    @Html.TextBoxFor(x => x.Form.Amount, new { @class = "form-control" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.Amount)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        In this field, you must enter the amount to receive
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    Currency
+                </div>
+                <div class="form-group col-md-5">
+                    @Html.DropDownListFor(x => x.Form.Currency, Model.Currencies, "Select the currency", new { @class = "form-control" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.Currency)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        In this field, you must enter the type of currency in which you want to receive the amount.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    Title (optional)
+                </div>
+                <div class="form-group col-md-5">
+                    @Html.TextBoxFor(x => x.Form.Title, new { @class = "form-control" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.Title)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        You can specify the title in the payment form.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    Subtitle (optional)
+                </div>
+                <div class="form-group col-md-5">
+                    @Html.TextBoxFor(x => x.Form.Subtitle, new { @class = "form-control" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.Subtitle)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+
+                        You can specify a subtitle or description of the transaction (it will appear on the payment form)
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    Expiration date (optional)
+                </div>
+                <div class="form-group col-md-5">
+                    @Html.TextBoxFor(x => x.Form.ExpiredDate, new { @class = "form-control", type = "date" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.ExpiredDate)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        If you want to set a deadline for the payment, here you can select the date.
+                    </div>
+                </div>
+            </div>
+            @*<div class="row">
+                <div class="col-md-3">
+                    @Localizer["Email del pagador"] (@Localizer["opcional"])
+                </div>
+                <div class="form-group col-md-5">
+                    @Html.TextBoxFor(x => x.Form.AllowedEmail, new { @class = "form-control", type = "email" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.AllowedEmail)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        @Localizer["En este campo, puedes especificar opcionalmente el email quien debe realizar el pago."]
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    @Localizer["Dirección ILP del pagador"] (@Localizer["opcional"])
+                </div>
+                <div class="form-group col-md-5">
+                    @Html.TextBoxFor(x => x.Form.AllowedILPAddress, new { @class = "form-control" }) <br />
+                    @Html.ValidationMessageFor(x => x.Form.AllowedILPAddress)
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success" role="alert">
+                        @Localizer["En este campo, puedes especificar opcionalmente la dirección en formato ILP (Interledger Protocol) quien debe realizar el pago."]
+
+                    </div>
+                </div>
+            </div>*@
+            <div class="row">
+                <div class="col-md-3">
+                    <br />
+                </div>
+                <div class="form-group col-md-5">
+                    <input type="submit" class="btn btn-primary loadingButton" value="Create payment link" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

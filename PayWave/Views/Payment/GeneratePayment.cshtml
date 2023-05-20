@@ -1,0 +1,146 @@
+﻿@model PayWave.Models.PaymentModels.GeneratePaymentViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = "Make payment";
+}
+
+
+@section HeaderSection
+{
+    <section id="hero" class="container">
+        <header>
+            <h2>
+                @ViewData["Title"]
+            </h2>
+        </header>
+        <p>
+            Review and confirm this transaction for payment
+        </p>
+
+    </section>
+}
+
+
+
+<div class="">
+    <div class="container" id="main">
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Datos de la transacción</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        Destination account
+                    </div>
+                    <div class="col-md-8">
+                        @Model.DestinationWallet.Account / @Model.DestinationWallet.Alias
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        Amount
+                    </div>
+                    <div class="col-md-8">
+                        @Model.Transaction.Amount
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        Currency
+                    </div>
+                    <div class="col-md-8">
+                        @Model.Transaction.Currency
+                    </div>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.Transaction.Title))
+                {
+                    <div class="row">
+                        <div class="col-md-4">
+                            Title
+                        </div>
+                        <div class="col-md-8">
+                            @Model.Transaction.Title
+                        </div>
+                    </div>
+                }
+                
+                @if (!string.IsNullOrWhiteSpace(Model.Transaction.Subtitle))
+                {
+                    <div class="row">
+                        <div class="col-md-4">
+                            Subtitle
+                        </div>
+                        <div class="col-md-8">
+                            @Model.Transaction.Subtitle
+                        </div>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.Transaction.TransactionCode))
+                {
+                    <div class="row">
+                        <div class="col-md-4">
+                            Transaction code
+
+                        </div>
+                        <div class="col-md-8">
+                            @Model.Transaction.TransactionCode
+                        </div>
+                    </div>
+                }
+
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                
+                    <div class="col-md-4">
+                        <div class="row">
+                            <h3>Select your wallet for payment</h3>
+                        </div>
+                        @using (Html.BeginForm())
+                        {
+                            @Html.HiddenFor(x => x.Form.TransactionId)
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @if (Model.Wallets.Any())
+                                    {
+                                        @Html.DropDownListFor(x => x.Form.WalletId, Model.Wallets, "Select your wallet", new { @class = "form-control" }) <br />
+                                        @Html.ValidationMessageFor(x => x.Form.WalletId)
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-warning">
+                                            You do not have a wallet to make the payment
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+
+                            <input type="submit" class="btn btn-secondary loadingButton" value="Pay" />
+                        }
+                    </div>
+                
+
+            }
+            else
+            {
+                <div class="col-md-4">
+                    <div class="alert alert-danger" role="alert">
+                        You must be authenticated to be able to make the payment<br />
+
+                    </div>
+                    <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary" asp-route-returnUrl="@Url.Action("GeneratePayment", "Pay", new { id = Model.Form.TransactionId })">Login</a>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
