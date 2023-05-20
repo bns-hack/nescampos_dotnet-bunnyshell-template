@@ -29,11 +29,11 @@
                 <div class="footer">
                     @if (User.Identity.IsAuthenticated)
                                     {
-                        <a class="btn btn-primary btn-block loadingButton" asp-controller="Profile" asp-action="Index">See my account</a>
+                        <a class="btn btn-primary btn-block loadingButton" asp-controller="Wallet" asp-action="Index">See my account</a>
                                 }
                     else
                     {
-                        <a class="btn btn-primary btn-block loadingButton" asp-area="Identity" asp-page="/Account/Register">Start using it</a>
+                        <a class="btn btn-primary btn-block loadingButton" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="/Wallet">Start using it</a>
                             }
 
                 </div>
