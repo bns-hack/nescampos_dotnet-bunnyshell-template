@@ -10,7 +10,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["PayWave/PayWave.csproj", "PayWave/"]
+COPY ["PayWave.csproj", "PayWave/"]
 RUN dotnet restore "PayWave/PayWave.csproj"
 COPY . .
 WORKDIR "/src/PayWave"
