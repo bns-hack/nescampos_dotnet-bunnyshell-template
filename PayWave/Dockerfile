@@ -2,6 +2,9 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
+
+ENV CircleAPIKey=${CircleAPIKey}
+
 EXPOSE 80
 EXPOSE 443
 

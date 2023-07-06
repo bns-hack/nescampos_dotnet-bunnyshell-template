@@ -1,0 +1,43 @@
+kind: Environment
+name: dev
+type: primary
+urlHandle: kubelingo
+environmentVariables:
+    type: hash
+    required: true
+    circleApi: 'bns_secret()'
+    description: Circle API Key
+components:
+    -
+        kind: Application
+        name: backend
+        gitRepo: 'https://github.com/nescampos/dotnet-bunnyshell-template.git'
+        gitBranch: master
+        dockerCompose:
+            build:
+                context: ./PayWave
+                dockerfile: Dockerfile
+            environment:
+                CircleAPIKey: {{ env.vars.circleApi }}
+            ports:
+                - '8080:80'
+                - '8081:433'
+            restart: always
+        hosts:
+            -
+                hostname: 'dev-{{ env.base_domain }}'
+                path: /
+                servicePort: 8081
+    -
+        kind: Database
+        name: db
+        gitRepo: 'https://github.com/nescampos/dotnet-bunnyshell-template.git'
+        gitBranch: master
+        dockerCompose:
+            environment:
+                SA_PASSWORD: "S3cur3P@ssW0rd!"
+                ACCEPT_EULA: "Y"
+            image: 'mcr.microsoft.com/mssql/server:2022-latest'
+            restart: always
+            ports:
+                - '1433:1433'
