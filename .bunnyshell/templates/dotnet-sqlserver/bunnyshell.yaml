@@ -21,13 +21,12 @@ components:
                 CircleAPIKey: '{{ env.vars.circleApi }}'
             ports:
                 - '8080:80'
-                - '8081:433'
             restart: always
         hosts:
             -
                 hostname: 'dev-{{ env.base_domain }}'
                 path: /
-                servicePort: 8081
+                servicePort: 8080
     -
         kind: Database
         name: db

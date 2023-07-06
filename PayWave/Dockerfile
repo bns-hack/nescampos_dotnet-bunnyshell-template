@@ -25,7 +25,5 @@ ENV CircleAPIKey=${CircleAPIKey}
 
 # Puerto en el que escucha la aplicación
 EXPOSE 80
-EXPOSE 443
-
 # Comando de inicio de la aplicación
 ENTRYPOINT ["dotnet", "PayWave.dll"]
