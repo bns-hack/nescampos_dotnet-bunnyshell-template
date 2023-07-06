@@ -31,11 +31,9 @@ components:
     -
         kind: Database
         name: db
-        gitRepo: 'https://github.com/nescampos/dotnet-bunnyshell-template.git'
-        gitBranch: master
         dockerCompose:
             environment:
-                SA_PASSWORD: "S3cur3P@ssW0rd!"
+                MSSQL_SA_PASSWORD: "S3cur3P@ssW0rd!"
                 ACCEPT_EULA: "Y"
             image: 'mcr.microsoft.com/mssql/server:2022-latest'
             restart: always
