@@ -1,7 +1,6 @@
 kind: Environment
 name: dev
 type: primary
-urlHandle: kubelingo
 environmentVariables:
     type: hash
     required: true
