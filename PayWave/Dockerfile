@@ -1,25 +1,31 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+# Imagen base
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+# Directorio de trabajo
 WORKDIR /app
+
+# Copiar archivos de proyecto y restaurar dependencias
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copiar todo el código fuente y compilar
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+# Imagen de producción
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+
+# Directorio de trabajo
+WORKDIR /app
+
+# Copiar archivos publicados de la etapa anterior
+COPY --from=build-env /app/out .
 
 ENV CircleAPIKey=${CircleAPIKey}
 
+# Puerto en el que escucha la aplicación
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["PayWave.csproj", "PayWave/"]
-RUN dotnet restore "PayWave/PayWave.csproj"
-COPY . .
-WORKDIR "/src/PayWave"
-RUN dotnet build "PayWave.csproj" -c Release -o /app/build
-
-FROM build AS publish
-RUN dotnet publish "PayWave.csproj" -c Release -o /app/publish
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
+# Comando de inicio de la aplicación
 ENTRYPOINT ["dotnet", "PayWave.dll"]
