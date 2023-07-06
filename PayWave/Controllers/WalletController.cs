@@ -53,7 +53,7 @@ namespace PayWave.Controllers
             var request = new RestRequest("/wallets", Method.Post);
             request.AddHeader("accept", "application/json");
             request.AddHeader("content-type", "application/json");
-            request.AddHeader("authorization", "Bearer "+_configuration["CircleAPIKey"]);
+            request.AddHeader("authorization", "Bearer "+ Environment.GetEnvironmentVariable("CircleAPIKey"));
             request.AddParameter("application/json", "{\"idempotencyKey\":\""+ idempotencyKey + "\",\"description\":\"Wallet with alias "+Form.Alias+"\"}", ParameterType.RequestBody);
             RestResponse<WalletDTO> response = client.Execute<WalletDTO>(request);
 
@@ -89,7 +89,7 @@ namespace PayWave.Controllers
             var client = new RestClient(_configuration["CircleAPIBaseUrl"]);
             var request = new RestRequest("/wallets/"+model.Wallet.Account, Method.Get);
             request.AddHeader("accept", "application/json");
-            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+            request.AddHeader("authorization", "Bearer " + Environment.GetEnvironmentVariable("CircleAPIKey"));
             RestResponse<WalletDTO> response = client.Execute<WalletDTO>(request);
             if (response.IsSuccessStatusCode)
             {
@@ -108,7 +108,7 @@ namespace PayWave.Controllers
             var client = new RestClient(_configuration["CircleAPIBaseUrl"]);
             var request = new RestRequest("/wallets/" + model.Wallet.Account+"/addresses", Method.Get);
             request.AddHeader("accept", "application/json");
-            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+            request.AddHeader("authorization", "Bearer " + Environment.GetEnvironmentVariable("CircleAPIKey"));
             RestResponse<BlockchainAccountDTO> response = client.Execute<BlockchainAccountDTO>(request);
             if (response.IsSuccessStatusCode)
             {
@@ -131,7 +131,7 @@ namespace PayWave.Controllers
                 var client2 = new RestClient(_configuration["CircleAPIBaseUrl"]);
                 var request2 = new RestRequest("/wallets/" + model.Wallet.Account + "/addresses", Method.Get);
                 request2.AddHeader("accept", "application/json");
-                request2.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+                request2.AddHeader("authorization", "Bearer " + Environment.GetEnvironmentVariable("CircleAPIKey"));
                 RestResponse<BlockchainAccountDTO> response2 = client2.Execute<BlockchainAccountDTO>(request2);
                 if (response2.IsSuccessStatusCode)
                 {
@@ -145,7 +145,7 @@ namespace PayWave.Controllers
             var request = new RestRequest("/wallets/" + model.Wallet.Account + "/addresses", Method.Post);
             request.AddHeader("accept", "application/json");
             request.AddHeader("content-type", "application/json");
-            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+            request.AddHeader("authorization", "Bearer " + Environment.GetEnvironmentVariable("CircleAPIKey"));
             request.AddParameter("application/json", "{\"currency\":\""+Form.Currency+ "\",\"chain\":\"" + Form.Chain + "\",\"idempotencyKey\":\"" + idempotencyKey + "\"}", ParameterType.RequestBody);
             RestResponse response = client.Execute(request);
 
@@ -158,7 +158,7 @@ namespace PayWave.Controllers
                 var client2 = new RestClient(_configuration["CircleAPIBaseUrl"]);
                 var request2 = new RestRequest("/wallets/" + model.Wallet.Account + "/addresses", Method.Get);
                 request2.AddHeader("accept", "application/json");
-                request2.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+                request2.AddHeader("authorization", "Bearer " + Environment.GetEnvironmentVariable("CircleAPIKey"));
                 RestResponse<BlockchainAccountDTO> response2 = client2.Execute<BlockchainAccountDTO>(request2);
                 if (response2.IsSuccessStatusCode)
                 {

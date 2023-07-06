@@ -41,7 +41,7 @@ namespace PayWave.Controllers
                 var request = new RestRequest(url, Method.Get);
                 request.AddHeader("accept", "application/json");
                 request.AddHeader("content-type", "application/json");
-                request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+                request.AddHeader("authorization", "Bearer " + Environment.GetEnvironmentVariable("CircleAPIKey"));
                 RestResponse<TransferListDTO> response = client.Execute<TransferListDTO>(request);
                 model.TransferList = response.Data.data;
             }
@@ -83,7 +83,7 @@ namespace PayWave.Controllers
             var request = new RestRequest("/transfers", Method.Post);
             request.AddHeader("accept", "application/json");
             request.AddHeader("content-type", "application/json");
-            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+            request.AddHeader("authorization", "Bearer " + Environment.GetEnvironmentVariable("CircleAPIKey"));
             request.AddParameter("application/json", "{\"source\":{\"type\":\"wallet\",\"id\":\""+ walletOrigin.Account+ "\"},\"amount\":{\"currency\":\""+Form.Currency+"\",\"amount\":\""+Form.Amount.ToString()+"\"},\"destination\":{\"type\":\"wallet\",\"id\":\"" + walletDestination.Account + "\"},\"idempotencyKey\":\""+idempotencyKey+"\"}", ParameterType.RequestBody);
             RestResponse<TransferDTO> response = client.Execute<TransferDTO>(request);
 
@@ -96,7 +96,7 @@ namespace PayWave.Controllers
             var client = new RestClient(_configuration["CircleAPIBaseUrl"]);
             var request = new RestRequest("/transfers/"+id, Method.Get);
             request.AddHeader("accept", "application/json");
-            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+            request.AddHeader("authorization", "Bearer " + Environment.GetEnvironmentVariable("CircleAPIKey"));
             RestResponse<TransferDTO> response = client.Execute<TransferDTO>(request);
             DetailsPaymentViewModel model = new DetailsPaymentViewModel(_db, response);
             return View(model);
@@ -136,7 +136,7 @@ namespace PayWave.Controllers
             var request = new RestRequest("/transfers", Method.Post);
             request.AddHeader("accept", "application/json");
             request.AddHeader("content-type", "application/json");
-            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+            request.AddHeader("authorization", "Bearer " + Environment.GetEnvironmentVariable("CircleAPIKey"));
 
             
 
@@ -261,7 +261,7 @@ namespace PayWave.Controllers
             var request = new RestRequest("/transfers", Method.Post);
             request.AddHeader("accept", "application/json");
             request.AddHeader("content-type", "application/json");
-            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+            request.AddHeader("authorization", "Bearer " + Environment.GetEnvironmentVariable("CircleAPIKey"));
 
             request.AddParameter("application/json", "{\"source\":{\"type\":\"wallet\",\"id\":\"" + walletOrigin.Account + "\"},\"amount\":{\"currency\":\"" + model.Transaction.Currency + "\",\"amount\":\"" + model.Transaction.Amount.ToString().Replace(",",".") + "\"},\"destination\":{\"type\":\"wallet\",\"id\":\"" + walletDestination.Account + "\"},\"idempotencyKey\":\"" + idempotencyKey + "\"}", ParameterType.RequestBody);
             RestResponse<TransferDTO> response = client.Execute<TransferDTO>(request);
@@ -348,7 +348,7 @@ namespace PayWave.Controllers
             var request = new RestRequest("/payouts", Method.Post);
             request.AddHeader("accept", "application/json");
             request.AddHeader("content-type", "application/json");
-            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+            request.AddHeader("authorization", "Bearer " + Environment.GetEnvironmentVariable("CircleAPIKey"));
 
             request.AddParameter("application/json", "{\"source\":{\"type\":\"wallet\",\"id\":\"" + walletOrigin.Account + "\"},\"destination\":{\"type\":\"address_book\",\"id\":\""+ walletDestination.AddressBookRecipientId+ "\"},\"amount\":{\"currency\":\"" + Form.OriginCurrency + "\",\"amount\":\"" + Form.Amount + "\"},\"toAmount\":{\"currency\":\"" + Form.DestinationCurrency + "\"},\"idempotencyKey\":\"" + idempotencyKey + "\"}", ParameterType.RequestBody);
             RestResponse<PayoutDTO> response = client.Execute<PayoutDTO>(request);
@@ -372,7 +372,7 @@ namespace PayWave.Controllers
             var client = new RestClient(_configuration["CircleAPIBaseUrl"]);
             var request = new RestRequest("/payouts/" + id, Method.Get);
             request.AddHeader("accept", "application/json");
-            request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+            request.AddHeader("authorization", "Bearer " + Environment.GetEnvironmentVariable("CircleAPIKey"));
             RestResponse<PayoutDTO> response = client.Execute<PayoutDTO>(request);
             DetailsCrossPaymentViewModel model = new DetailsCrossPaymentViewModel(_db, response);
             return View(model);

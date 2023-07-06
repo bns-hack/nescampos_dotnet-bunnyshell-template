@@ -72,7 +72,7 @@ namespace PayWave.Controllers
                 var request = new RestRequest("/addressBook/recipients", Method.Post);
                 request.AddHeader("accept", "application/json");
                 request.AddHeader("content-type", "application/json");
-                request.AddHeader("authorization", "Bearer " + _configuration["CircleAPIKey"]);
+                request.AddHeader("authorization", "Bearer " + Environment.GetEnvironmentVariable("CircleAPIKey"));
                 string tag = Form.BlockchainAddressTag != null? ",\"addressTag\":\""+ Form.BlockchainAddressTag + "\"" : "";
                 request.AddParameter("application/json", "{\"chain\":\""+Form.Chain+"\",\"metadata\":{\"nickname\":\""+Form.Name+"\"},\"idempotencyKey\":\""+Guid.NewGuid()+"\",\"address\":\""+Form.BlockchainAddress+ "\""+ tag + "}", ParameterType.RequestBody);
                 RestResponse<AddressBookRecipientDTO> response = client.Execute<AddressBookRecipientDTO>(request);

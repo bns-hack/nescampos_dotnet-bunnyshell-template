@@ -1,0 +1,14 @@
+name: DotNet + SQL Server
+description: This is a web app that provides a full Web3 wallet and payment system with USDC (Circle). Use .NET 6 and SQL Server components.
+tags:
+   - dotnet
+   - sqlserver
+   - bunnyshell-hackathon
+icons: [ 'dotnet', 'sqlserver' ]
+stack:
+  packages:
+    - name: DotNet
+      version: '6.0.0'
+    - name: SQL Server
+      version: '16'
+discoverable: true
