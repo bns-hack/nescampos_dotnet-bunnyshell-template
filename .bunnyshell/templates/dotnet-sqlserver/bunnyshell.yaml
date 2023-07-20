@@ -12,7 +12,7 @@ components:
         name: backend
         gitRepo: 'https://github.com/bns-hack/nescampos_dotnet-bunnyshell-template.git'
         gitBranch: master
-        #gitApplicationPath: PayWave
+        gitApplicationPath: PayWave
         dockerCompose:
             build:
                 context: ./PayWave
